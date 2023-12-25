@@ -4,6 +4,7 @@
   padding: 1em;
   display: grid;
   gap: 0.8em;
+  min-height: 6em;
 }
 
 .header-container {

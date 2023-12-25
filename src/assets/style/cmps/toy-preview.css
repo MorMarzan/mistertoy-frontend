@@ -1,14 +1,14 @@
 .toy-preview {
     display: grid;
-    grid-auto-flow: column;
     align-items: center;
-}
-
-.toy-preview p {
-    color: black;
-    margin: 0;
+    justify-items: center;
 }
 
 .toy-preview.out-of-stock {
     color: gray;
+}
+
+.toy-preview img {
+    max-width: 100px;
+    margin-block: 1em;
 }

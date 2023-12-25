@@ -10,10 +10,12 @@
 
 /* Components */
 @import 'cmps/app-header.css';
+@import 'cmps/app-footer.css';
 @import 'cmps/toggle-btn.css';
 @import 'cmps/user-msg.css';
 
 @import 'cmps/toy-filter.css';
+@import 'cmps/toy-sort.css';
 @import 'cmps/toy-list.css';
 @import 'cmps/toy-preview.css';
 @import 'cmps/toy-index.css';

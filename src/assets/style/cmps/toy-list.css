@@ -7,14 +7,23 @@
 
 .toy-list li {
     display: grid;
-    grid-template-columns: 3fr 1fr;
+    justify-items: center;
     background-color: var(--clr1bg);
     padding: 0.5em;
 }
 
 .toy-list li .tools {
-    justify-self: end;
     display: grid;
     grid-auto-flow: column;
     gap: 0.5em
 }
+
+/* Tablet */
+@media (width >=768px) {
+    .toy-list {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* desktop */
+@media (width >=992px) {}

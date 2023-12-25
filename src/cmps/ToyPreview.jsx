@@ -1,4 +1,5 @@
 
+import dollPng from '../assets/img/bear.png'
 
 export function ToyPreview({ toy }) {
 
@@ -11,6 +12,8 @@ export function ToyPreview({ toy }) {
             <h3>{name}</h3>
             <h4>{price}$</h4>
             <h4>{inStock ? 'Avialable' : 'Out of stock'}</h4>
+            <img src={dollPng} />
+
         </article>
     )
 }

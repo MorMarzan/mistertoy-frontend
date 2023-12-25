@@ -1,0 +1,6 @@
+.toy-sort {
+    background-color: var(--clr1);
+    padding: 1em;
+    display: grid;
+    gap: 0.5em;
+}
