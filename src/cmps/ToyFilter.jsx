@@ -1,5 +1,6 @@
 
 import { useEffect, useState } from "react"
+import { toyService } from "../services/toy.service"
 
 export function ToyFilter({ filterBy, onSetFilter }) {
 
@@ -51,6 +52,14 @@ export function ToyFilter({ filterBy, onSetFilter }) {
         setFilterByToEdit(prevFilter => ({ ...prevFilter, inStock: value }))
     }
 
+    // function handleMultiSelect(target) {
+    //     // const field = target.name
+    //     const value = Array.from(target.selectedOptions ?? [], (option) => option.value)
+    //     setFilterByToEdit((prevFilter) => ({ ...prevFilter, labels: value }))
+    // }
+
+    // console.log('filterByToEdit', filterByToEdit)
+
     const { name, inStock, labels, maxPrice } = filterByToEdit
 
     return (
@@ -72,13 +81,14 @@ export function ToyFilter({ filterBy, onSetFilter }) {
                 <input value={maxPrice || ''} onChange={handleChange} type="number" id="maxPrice" name="maxPrice" />
 
                 <label htmlFor="labels">Label:</label>
-                <select name="labels" id="labels" onChange={handleChange} defaultValue={labels}>
-                    <option disabled value="">Choose label</option>
+                <select name="labels" id="labels" onChange={handleChange} defaultValue={labels} >
+                    {/* multiple */}
                     <option value="">All</option>
-                    <option value="art">Art</option>
-                    <option value="doll">Doll</option>
-                    <option value="baby">Baby</option>
-                    <option value="on wheels">On Wheels</option>
+                    {toyService.gLabels.map((label) => (
+                        <option key={label} value={label}>
+                            {label}
+                        </option>
+                    ))}
                 </select>
 
                 <button>Filter</button>

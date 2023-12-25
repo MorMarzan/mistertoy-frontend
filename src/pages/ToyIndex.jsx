@@ -8,9 +8,10 @@ import { Link } from "react-router-dom"
 
 import { ToyList } from "../cmps/ToyList"
 import { ToyFilter } from "../cmps/ToyFilter"
-import { loadToys, removeToy, setFilterBy } from "../store/actions/toy.actions"
+import { loadToys, removeToy, setFilterBy, setSortBy } from "../store/actions/toy.actions"
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
 import { utilService } from "../services/util.service"
+import { ToySort } from "../cmps/ToySort"
 
 // import { ToyFilter } from '../cmps/ToyFilter.jsx'
 // import { Loader } from '../cmps/Loader.jsx'
@@ -21,14 +22,14 @@ export function ToyIndex() {
     // const user = useSelector(storeState => storeState.userModule.loggedinUser)
     // const isLoading = useSelector(storeState => storeState.toyModule.isLoading)
     const filterBy = useSelector(storeState => storeState.toyModule.filterBy)
+    const sortBy = useSelector(storeState => storeState.toyModule.sortBy)
     const debounceOnSetFilter = useRef(utilService.debounce(onSetFilter, 500))
-    console.log('filterBy', filterBy)
+    console.log('sortBy', sortBy)
 
     useEffect(() => {
         loadToys()
             .catch(() => { showErrorMsg('Cannot show toys') })
-        // }, [])
-    }, [filterBy])
+    }, [filterBy, sortBy])
 
     function onRemoveToy(toyId) {
         removeToy(toyId)
@@ -45,11 +46,15 @@ export function ToyIndex() {
         setFilterBy(filterBy)
     }
 
+    function onSetSortBy(sortBy) {
+        setSortBy(sortBy)
+    }
+
     // function promptSignup() {
     //     showErrorMsg('Signup to enjoy our toys app')
     // }
 
-    const { name, inStock, label, maxPrice } = filterBy
+    const { name, inStock, labels, maxPrice } = filterBy
     // console.log('isLoading', isLoading)
 
     return (
@@ -59,7 +64,11 @@ export function ToyIndex() {
                 {/* // !isLoading && */}
                 {/* <Fragment> */}
                 <Link className='edit btn' to={`/toy/edit/`}>Add toy</Link>
-                <ToyFilter filterBy={{ name, inStock, label, maxPrice }} onSetFilter={debounceOnSetFilter.current} />
+                <ToyFilter
+                    filterBy={{ name, inStock, labels, maxPrice }}
+                    onSetFilter={debounceOnSetFilter.current}
+                />
+                <ToySort onSetSortBy={onSetSortBy} sortBy={sortBy} />
                 <ToyList toys={toys} onRemoveToy={onRemoveToy} />
                 {/* </Fragment> */}
                 {/* } */}

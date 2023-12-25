@@ -19,7 +19,7 @@ export const toyService = {
 
 _createToys()
 
-function query(filterBy) {
+function query(filterBy, sortBy = { type: '', dir: 1 }) {
     // return axios.get(BASE_URL).then(res => res.data)
     // return storageService.query(STORAGE_KEY)
     return storageService.query(STORAGE_KEY)
@@ -34,16 +34,26 @@ function query(filterBy) {
             if (filterBy.maxPrice) {
                 toys = toys.filter(toy => toy.price <= filterBy.maxPrice)
             }
-            // if (filterBy.labels) {
-            //     toys = toys.filter(toy => toy.labels.includes(filterBy.labels))
-            // }
             if (filterBy.labels) {
-                const filterLabelsLowerCase = filterBy.labels.toLowerCase().replace(/\s/g, '');
-                toys = toys.filter(toy => {
-                    const toyLabelsLowerCase = toy.labels.map(label => label.toLowerCase().replace(/\s/g, ''))
-                    return toyLabelsLowerCase.includes(filterLabelsLowerCase)
-                })
+                toys = toys.filter(toy => toy.labels.includes(filterBy.labels))
             }
+            // if (filterBy.labels) {
+            //     const filterLabelsLowerCase = filterBy.labels.toLowerCase().replace(/\s/g, '');
+            //     toys = toys.filter(toy => {
+            //         const toyLabelsLowerCase = toy.labels.map(label => label.toLowerCase().replace(/\s/g, ''))
+            //         return toyLabelsLowerCase.includes(filterLabelsLowerCase)
+            //     })
+            // }
+            if (sortBy.type === 'price') { //numeric
+                toys.sort((b1, b2) => (b1.price - b2.price) * sortBy.dir)
+            }
+            else if (sortBy.type === 'createdAt') { //numeric
+                toys.sort((b1, b2) => (b1.createdAt - b2.createdAt) * sortBy.dir)
+            }
+            else if (sortBy.type === 'name') { //abc
+                toys.sort((b1, b2) => (b1.name.localeCompare(b2.name) * sortBy.dir))
+            }
+
             return toys
         })
 }
