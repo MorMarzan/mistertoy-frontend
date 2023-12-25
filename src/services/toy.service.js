@@ -1,7 +1,6 @@
 
 import { storageService } from './async-storage.service.js'
 import { utilService } from './util.service.js'
-// import { userService } from './user.service.js'
 
 const STORAGE_KEY = 'toyDB'
 const gLabels = ['On wheels', 'Box game', 'Art', 'Baby', 'Doll', 'Puzzle',
