@@ -12,8 +12,6 @@ export function ToySort({ onSetSortBy, sortBy }) {
     function handleChange({ target }) {
         const field = target.name
         const value = target.type === 'number' ? +target.value : target.value
-        console.log('field:', field)
-        console.log('value:', value)
         if (field === 'dir')
             setSortByToEdit(prevSort => ({
                 ...prevSort,
@@ -34,7 +32,6 @@ export function ToySort({ onSetSortBy, sortBy }) {
                 defaultValue={sortByToEdit.type}
                 onChange={handleChange}
             >
-                {/* <option value={''}>----</option> */}
                 <option disabled value="">Choose option</option>
                 <option value="createdAt">Date</option>
                 <option value="price">Price</option>

@@ -24,7 +24,6 @@ export function ToyIndex() {
     const filterBy = useSelector(storeState => storeState.toyModule.filterBy)
     const sortBy = useSelector(storeState => storeState.toyModule.sortBy)
     const debounceOnSetFilter = useRef(utilService.debounce(onSetFilter, 500))
-    console.log('sortBy', sortBy)
 
     useEffect(() => {
         loadToys()

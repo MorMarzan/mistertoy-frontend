@@ -71,8 +71,6 @@ function save(toy) {
     if (toy._id) {
         return storageService.put(STORAGE_KEY, toy)
     } else {
-        // when switching to backend - remove the next line
-        // toy.owner = userService.getLoggedinUser()
         return storageService.post(STORAGE_KEY, toy)
     }
 }
@@ -133,7 +131,7 @@ function _createDemoToys() {
         const toy = _createToy(toyName, price)
         toy.inStock = Math.random() < 0.5 ? false : true
         toy.labels.push(labels[utilService.getRandomIntInclusive(0, labels.length - 1)])
-        // toy.createdAt-= 
+        toy.createdAt += utilService.randomPeriodOfTime()
         return toy
     })
     utilService.saveToStorage(STORAGE_KEY, toys)

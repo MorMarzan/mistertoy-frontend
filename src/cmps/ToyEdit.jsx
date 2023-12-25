@@ -40,6 +40,11 @@ export function ToyEdit() {
         setToyToEdit(prevToy => ({ ...prevToy, [field]: value }))
     }
 
+    function handleLabels({ target }) {
+        let value = target.value
+        setToyToEdit(prevToy => ({ ...prevToy, labels: [value] }))
+    }
+
     function onSaveToy(ev) {
         ev.preventDefault()
         saveToy(toyToEdit)
@@ -53,7 +58,7 @@ export function ToyEdit() {
             })
     }
 
-    const { name, inStock, price } = toyToEdit
+    const { name, inStock, price, labels } = toyToEdit
 
     return (
         <section className="toy-edit">
@@ -62,13 +67,24 @@ export function ToyEdit() {
                 <label htmlFor="name">Name</label>
                 <input onChange={handleChange} value={name} type="text" name="name" id="name" />
 
-                <label htmlFor="price">Name</label>
+                <label htmlFor="price">Price</label>
                 <input onChange={handleChange} value={price || ''} type="number" name="price" id="price" />
 
                 <label htmlFor="inStock">in stock?</label>
                 <input onChange={handleChange} checked={inStock} type="checkbox" name="inStock" id="inStock" />
 
-                <button disabled={!name}>Save</button>
+                <label htmlFor="labels">Label:</label>
+                <select name="labels" id="labels" onChange={handleLabels} value={labels[0] || ''} >
+                    {/* multiple */}
+                    <option value="">No Label</option>
+                    {toyService.gLabels.map((label) => (
+                        <option key={label} value={label}>
+                            {label}
+                        </option>
+                    ))}
+                </select>
+
+                <button disabled={!name || !price}>Save</button>
             </form>
             <button><Link className="btn" to={'/toy'}>← Go back</Link></button>
 

@@ -6,7 +6,8 @@ export const utilService = {
     saveToStorage,
     animateCSS,
     debounce,
-    formatTimestamp
+    formatTimestamp,
+    randomPeriodOfTime
 }
 
 function makeId(length = 6) {
@@ -119,4 +120,19 @@ function formatTimestamp(timestamp) {
     // If it was more than a year ago, display the year only
     const year = date.getFullYear().toString()
     return year
+}
+
+function randomPeriodOfTime() {
+    // Define possible time ranges in milliseconds
+    const minute = 60 * 1000;
+    const hour = 60 * minute;
+    const day = 24 * hour;
+    const week = 7 * day;
+    const month = 30 * day;
+    const year = 365 * day;
+
+    // Choose a random time range
+    const randomTimeRange = Math.floor(Math.random() * (2 * year - minute) + minute) - year;
+
+    return randomTimeRange; // Return the random time range
 }
