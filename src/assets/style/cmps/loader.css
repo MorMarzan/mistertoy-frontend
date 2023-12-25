@@ -1,0 +1,40 @@
+.loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50px -50%;
+
+    display: flex;
+    gap: 15px;
+}
+
+.dot {
+    width: 20px;
+    height: 20px;
+    background-color: black;
+    border-radius: 50%;
+
+    animation-name: grow;
+    animation-duration: 600ms;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+}
+
+@keyframes grow {
+    100% {
+        scale: 1.5;
+    }
+}
+
+.loader .dot:nth-child(1) {
+    animation-delay: 100ms;
+}
+
+.loader .dot:nth-child(2) {
+    animation-delay: 300ms;
+}
+
+.loader .dot:nth-child(3) {
+    animation-delay: 500ms;
+}

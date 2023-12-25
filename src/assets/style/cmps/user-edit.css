@@ -1,0 +1,6 @@
+.user-edit form {
+    display: grid;
+    max-width: fit-content;
+    margin: 1em 0;
+    gap: 0.5em;
+}

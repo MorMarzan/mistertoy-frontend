@@ -1,0 +1,9 @@
+.toy-index {
+    max-width: fit-content;
+    margin: auto;
+    display: grid;
+}
+
+.toy-index .edit.btn {
+    margin: 1em 0;
+}
