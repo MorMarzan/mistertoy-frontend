@@ -27,7 +27,7 @@ export function ToyDetails() {
             <h3>Price: {price}$</h3>
             <h3>In stock? {inStock ? 'yes' : 'no'}</h3>
             <h3>Created: {utilService.formatTimestamp(createdAt)}</h3>
-            <h3>Labels: {labels}</h3>
+            <h3>Labels: {labels.join(', ')}</h3>
             <Link className="btn" to={'/toy'}>← Go back</Link>
         </section>
     )

@@ -52,13 +52,22 @@ export function ToyFilter({ filterBy, onSetFilter }) {
         setFilterByToEdit(prevFilter => ({ ...prevFilter, inStock: value }))
     }
 
-    // function handleMultiSelect(target) {
-    //     // const field = target.name
-    //     const value = Array.from(target.selectedOptions ?? [], (option) => option.value)
-    //     setFilterByToEdit((prevFilter) => ({ ...prevFilter, labels: value }))
-    // }
 
-    // console.log('filterByToEdit', filterByToEdit)
+    function handleLabels({ target }) {
+        let value = target.value
+
+        if (value === '') {
+            setFilterByToEdit((prevToy) => ({ ...prevToy, labels: [] }))
+        } else {
+            setFilterByToEdit((prevToy) => {
+                const updatedLabels = prevToy.labels.includes(value)
+                    ? prevToy.labels.filter((label) => label !== value)
+                    : [...prevToy.labels, value];
+
+                return { ...prevToy, labels: updatedLabels }
+            })
+        }
+    }
 
     const { name, inStock, labels, maxPrice } = filterByToEdit
 
@@ -81,8 +90,7 @@ export function ToyFilter({ filterBy, onSetFilter }) {
                 <input value={maxPrice || ''} onChange={handleChange} type="number" id="maxPrice" name="maxPrice" />
 
                 <label htmlFor="labels">Label:</label>
-                <select name="labels" id="labels" onChange={handleChange} defaultValue={labels} >
-                    {/* multiple */}
+                <select name="labels" id="labels" onChange={handleLabels} value={labels} multiple>
                     <option value="">All</option>
                     {toyService.gLabels.map((label) => (
                         <option key={label} value={label}>

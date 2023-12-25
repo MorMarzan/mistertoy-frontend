@@ -55,7 +55,7 @@ function getDefaultFilter() {
     return {
         name: '',
         maxPrice: '',
-        labels: '',
+        labels: [],
         inStock: undefined,
     }
 }

@@ -42,7 +42,20 @@ export function ToyEdit() {
 
     function handleLabels({ target }) {
         let value = target.value
-        setToyToEdit(prevToy => ({ ...prevToy, labels: [value] }))
+
+        if (value === '') {
+            // Handle the case when "No Label" is selected
+            setToyToEdit((prevToy) => ({ ...prevToy, labels: [] }))
+        } else {
+            // Toggle the label in and out of the array
+            setToyToEdit((prevToy) => {
+                const updatedLabels = prevToy.labels.includes(value)
+                    ? prevToy.labels.filter((label) => label !== value)
+                    : [...prevToy.labels, value];
+
+                return { ...prevToy, labels: updatedLabels }
+            })
+        }
     }
 
     function onSaveToy(ev) {
@@ -74,8 +87,8 @@ export function ToyEdit() {
                 <input onChange={handleChange} checked={inStock} type="checkbox" name="inStock" id="inStock" />
 
                 <label htmlFor="labels">Label:</label>
-                <select name="labels" id="labels" onChange={handleLabels} value={labels[0] || ''} >
-                    {/* multiple */}
+                <select name="labels" id="labels" onChange={handleLabels} value={labels} multiple>
+                    {/* <select name="labels" id="labels" onChange={handleLabels} value={labels[0] || ''} > */}
                     <option value="">No Label</option>
                     {toyService.gLabels.map((label) => (
                         <option key={label} value={label}>
