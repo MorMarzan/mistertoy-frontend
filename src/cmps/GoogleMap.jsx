@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import GoogleMapReact from 'google-map-react'
+import { Button, ButtonGroup } from '@mui/material'
 
-// const AnyReactComponent = ({ text }) => <div>{text}</div>
 const Marker = ({ text = '🧸', ...props }) => (
     <div
         style={{
@@ -37,11 +37,14 @@ export function GoogleMap() {
 
     return (
         <>
-            {locations.map((location) => (
-                <button key={location.name} onClick={() => setCenter({ lat: location.lat, lng: location.lng })}>
-                    {location.name}
-                </button>
-            ))}
+            <ButtonGroup color="secondary" variant="outlined" aria-label="outlined primary button group">
+                {locations.map((location) => (
+                    <Button key={location.name} onClick={() => setCenter({ lat: location.lat, lng: location.lng })}>
+                        {location.name}
+                    </Button>
+                ))}
+            </ButtonGroup>
+
 
             <div style={{ height: '50vh', width: '100%' }}>
                 <GoogleMapReact
