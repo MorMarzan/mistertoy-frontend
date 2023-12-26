@@ -1,17 +1,22 @@
-import { useSelector } from 'react-redux'
-
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import { Doughnut } from 'react-chartjs-2'
-
-import { toyService } from "../services/toy.service"
-import { loadToys, setFilterBy } from '../store/actions/toy.actions'
-import { showErrorMsg } from '../services/event-bus.service'
-import { useEffect } from 'react'
-import { ProfitChart } from './ProfitsChart'
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
 export function LabelsChart({ chartInfo, toyLabels }) {
+
+    const options = {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: chartInfo.label + ' per label',
+            },
+        },
+    }
 
     const data = {
         labels: toyLabels,
@@ -42,8 +47,7 @@ export function LabelsChart({ chartInfo, toyLabels }) {
 
     return (
         <>
-            <h2>{chartInfo.label + ' per label'}</h2>
-            <Doughnut data={data} />
+            <Doughnut options={options} data={data} />
         </>
     )
 }

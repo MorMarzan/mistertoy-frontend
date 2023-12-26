@@ -1,20 +1,17 @@
 import { useSelector } from 'react-redux'
+import { useEffect, useState } from 'react'
 
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
-import { Doughnut } from 'react-chartjs-2'
-
-import { toyService } from "../services/toy.service"
-import { loadToys, setFilterBy } from '../store/actions/toy.actions'
+import { loadToys } from '../store/actions/toy.actions'
 import { showErrorMsg } from '../services/event-bus.service'
-import { useEffect } from 'react'
 import { ProfitChart } from '../cmps/ProfitsChart'
 import { LabelsChart } from '../cmps/LabelsChart'
 
-ChartJS.register(ArcElement, Tooltip, Legend)
 
 export function Dashboard() {
 
     const toys = useSelector(storeState => storeState.toyModule.toys)
+    const [chartToDisplay, setChartToDisplay] = useState(0)
+
 
     useEffect(() => {
         loadToys()
@@ -57,17 +54,30 @@ export function Dashboard() {
         { label: 'Avg price', data: pricePerLabelAvgs },
         { label: 'Num of toys', data: toyPerLabelCount },
         { label: 'In stock percent', data: inStockPerLabelPercs },
+        { label: '', data: [] }
     ]
+
+    function handleChange({ target }) {
+        let value = +target.value
+        setChartToDisplay(value)
+    }
 
     return (
         <>
-            {/* <label htmlFor="chart">Choose a chart:</label>
-            <select name="chart" id="chart" onChange={handleChange} >
-                <option value="">All</option>
-            </select> */}
+            <label htmlFor="chart">Choose a chart:</label>
+            <select name="chart" id="chart" onChange={handleChange} value={chartToDisplay}>
+                <option value={0}>Avarge price per label</option>
+                <option value={1}>Number of toys per label</option>
+                <option value={2}>In stock percentage per label</option>
+                <option value={3}>Income per month</option>
+            </select>
 
-            {/* <LabelsChart chartInfo={chartInfo[0]} toyLabels={toyLabels} /> */}
-            <ProfitChart />
+            {(chartToDisplay !== 3) &&
+                <LabelsChart chartInfo={chartInfo[chartToDisplay]} toyLabels={toyLabels} />
+            }
+            {(chartToDisplay === 3) &&
+                <ProfitChart />
+            }
         </>
     )
 }
