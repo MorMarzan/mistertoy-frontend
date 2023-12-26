@@ -70,7 +70,7 @@ export function ToyFilterDes({ filterBy, onSetFilter }) {
         }
     }
 
-    console.log('filterByToEdit', filterByToEdit)
+    // console.log('filterByToEdit', filterByToEdit)
     // console.log('selectedLabels', selectedLabels)
 
     const inStockOpts = [

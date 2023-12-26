@@ -1,3 +1,4 @@
+import { Box, Checkbox, MenuItem, TextField } from "@mui/material"
 import { useEffect, useState } from "react"
 
 
@@ -24,32 +25,64 @@ export function ToySort({ onSetSortBy, sortBy }) {
             }))
     }
 
-    return (
-        <form className="toy-sort">
-            <select
-                className="sort-type"
-                name="type"
-                defaultValue={sortByToEdit.type}
-                onChange={handleChange}
-            >
-                <option disabled value="">Choose option</option>
-                <option value="createdAt">Date</option>
-                <option value="price">Price</option>
-                <option value="name">Name</option>
-            </select>
+    const sortOpts = [
+        { label: 'Date', value: 'createdAt' },
+        { label: 'Price', value: 'price' },
+        { label: 'Name', value: 'name' }
+    ]
 
-            <label>
-                <input
-                    type="checkbox"
+    return (
+        <section className="toy-sort">
+            <Box
+                component="form"
+                sx={{
+                    '& > :not(style)': { m: 1, width: '25ch' },
+                }}
+                noValidate
+                autoComplete="off"
+            >
+
+                <TextField
+                    id="outlined-select-currency"
+                    select
+                    className="sort-type"
+                    label="Sort by"
+                    name="type"
+                    value={sortByToEdit.type}
+                    onChange={handleChange}
+                    size="small"
+
+                >
+                    {sortOpts.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                            {option.label}
+                        </MenuItem>
+                    ))}
+                </TextField>
+
+                {/* <label>
+                    <input
+                        type="checkbox"
+                        name="dir"
+                        checked={sortByToEdit.dir < 0}
+                        onChange={handleChange}
+
+                        disabled={!sortByToEdit.type}
+                    />
+                    Descending
+                </label> */}
+
+                <Checkbox
                     name="dir"
                     checked={sortByToEdit.dir < 0}
                     onChange={handleChange}
                     disabled={!sortByToEdit.type}
+                    label="Descending"
                 />
-                Descending
-            </label>
-        </form>
 
+            </Box>
+
+        </section>
 
     )
 }
