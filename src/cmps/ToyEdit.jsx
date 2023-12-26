@@ -87,7 +87,7 @@ export function ToyEdit() {
                 <input onChange={handleChange} checked={inStock} type="checkbox" name="inStock" id="inStock" />
 
                 <label htmlFor="labels">Label:</label>
-                <select name="labels" id="labels" onChange={handleLabels} value={labels} multiple>
+                <select name="labels" id="labels" onChange={handleLabels} value={labels || []} multiple>
                     {/* <select name="labels" id="labels" onChange={handleLabels} value={labels[0] || ''} > */}
                     <option value="">No Label</option>
                     {toyService.gLabels.map((label) => (

@@ -90,7 +90,7 @@ export function ToyFilter({ filterBy, onSetFilter }) {
                 <input value={maxPrice || ''} onChange={handleChange} type="number" id="maxPrice" name="maxPrice" />
 
                 <label htmlFor="labels">Label:</label>
-                <select name="labels" id="labels" onChange={handleLabels} value={labels} multiple>
+                <select name="labels" id="labels" onChange={handleLabels} value={labels || []} multiple>
                     <option value="">All</option>
                     {toyService.gLabels.map((label) => (
                         <option key={label} value={label}>
