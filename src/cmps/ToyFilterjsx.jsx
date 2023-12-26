@@ -61,7 +61,7 @@ export function ToyFilter({ filterBy, onSetFilter }) {
         setFilterByToEdit(prevFilter => ({ ...prevFilter, labels: newLabels }))
     }
 
-    console.log('filterByToEdit.labels', filterByToEdit.labels)
+    // console.log('filterByToEdit.labels', filterByToEdit.labels)
 
     const inStockOpts = [
         { label: 'Out of stock', value: 'false' },
