@@ -8,7 +8,6 @@ import { ToySort } from "../cmps/ToySort"
 import { loadToys, removeToy, setFilterBy, setSortBy } from "../store/actions/toy.actions"
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
 import { utilService } from "../services/util.service"
-import { ToyFilterDes } from "../cmps/ToyFilterDes"
 // import { Loader } from '../cmps/Loader.jsx'
 
 export function ToyIndex() {
@@ -51,8 +50,7 @@ export function ToyIndex() {
             <section className="toy-index">
 
                 <Link className='edit btn' to={`/toy/edit/`}>Add toy</Link>
-                <ToyFilterDes
-                    // <ToyFilter
+                <ToyFilter
                     filterBy={{ name, inStock, labels, maxPrice }}
                     onSetFilter={debounceOnSetFilter.current}
                 />

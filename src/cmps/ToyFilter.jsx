@@ -1,6 +1,8 @@
 
 import { useEffect, useState } from "react"
 import { toyService } from "../services/toy.service"
+import { Box, Chip, FormControl, InputLabel, MenuItem, OutlinedInput, Select, Stack, TextField } from "@mui/material"
+import CancelIcon from "@mui/icons-material/Cancel"
 
 export function ToyFilter({ filterBy, onSetFilter }) {
 
@@ -22,7 +24,7 @@ export function ToyFilter({ filterBy, onSetFilter }) {
         switch (target.type) {
             case 'number':
             case 'range':
-                value = +value
+                value = Math.max(1, +value)
                 break
 
             case 'checkbox':
@@ -53,54 +55,113 @@ export function ToyFilter({ filterBy, onSetFilter }) {
     }
 
 
-    function handleLabels({ target }) {
-        let value = target.value
-
-        if (value === '') {
-            setFilterByToEdit((prevToy) => ({ ...prevToy, labels: [] }))
-        } else {
-            setFilterByToEdit((prevToy) => {
-                const updatedLabels = prevToy.labels.includes(value)
-                    ? prevToy.labels.filter((label) => label !== value)
-                    : [...prevToy.labels, value];
-
-                return { ...prevToy, labels: updatedLabels }
-            })
-        }
+    function handleLabels(ev) {
+        const { target: { value }, } = ev
+        const newLabels = (typeof value === "string") ? value.split(",") : value
+        setFilterByToEdit(prevFilter => ({ ...prevFilter, labels: newLabels }))
     }
+
+    function handleDeleteLabels(labelToDelete) {
+        const newLabels = filterByToEdit.labels.filter((label) => label !== labelToDelete)
+        setFilterByToEdit(prevFilter => ({ ...prevFilter, labels: newLabels }))
+    }
+
+    console.log('filterByToEdit.labels', filterByToEdit.labels)
+
+    const inStockOpts = [
+        { label: 'Out of stock', value: 'false' },
+        { label: 'Avialable', value: 'true' },
+        { label: 'All', value: 'undefined' }
+    ]
 
     const { name, inStock, labels, maxPrice } = filterByToEdit
 
     return (
         <section className="toy-filter">
             <h2>Filter Our Toys</h2>
-            <form onSubmit={onSetFilterBy} >
+            <Box
+                component="form"
+                sx={{
+                    '& > :not(style)': { m: 1, width: '25ch' },
+                }}
+                noValidate
+                autoComplete="off"
+            >
 
-                <label htmlFor="name">Name: </label>
-                <input value={name} onChange={handleChange} type="text" id="name" name="name" />
+                <TextField value={name} onChange={handleChange} name="name" id="outlined-basic" label="Toy name" variant="outlined" size="small"
+                />
 
-                <label htmlFor="inStock">Stock Status:</label>
-                <select name="inStock" id="inStock" onChange={handleInStockSelect} defaultValue={inStock}>
-                    <option value='undefined'>All</option>
-                    <option value='false'>Out of stock</option>
-                    <option value='true'>Avialable</option>
-                </select>
+                <TextField
+                    id="outlined-select-currency"
+                    select
+                    label="Stock Status"
+                    name="inStock"
+                    value={inStock + ''}
+                    onChange={handleInStockSelect}
+                    size="small"
 
-                <label htmlFor="maxPrice">Max Price: </label>
-                <input value={maxPrice || ''} onChange={handleChange} type="number" id="maxPrice" name="maxPrice" />
-
-                <label htmlFor="labels">Label:</label>
-                <select name="labels" id="labels" onChange={handleLabels} value={labels || []} multiple>
-                    <option value="">All</option>
-                    {toyService.gLabels.map((label) => (
-                        <option key={label} value={label}>
-                            {label}
-                        </option>
+                >
+                    {inStockOpts.map((option) => (
+                        <MenuItem key={option.label} value={option.value}>
+                            {option.label}
+                        </MenuItem>
                     ))}
-                </select>
+                </TextField>
 
-                <button>Filter</button>
-            </form>
+                <TextField
+                    id="outlined-number"
+                    label="Max Price"
+                    type="number"
+                    size="small"
+                    onChange={handleChange}
+                    value={maxPrice || ''}
+                    name="maxPrice"
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                />
+
+
+                <FormControl sx={{ m: 1, width: 300 }}>
+                    <InputLabel id="demo-multiple-chip-label">Toy Labels</InputLabel>
+                    <Select
+                        labelId="demo-multiple-chip-label"
+                        id="demo-multiple-chip"
+                        // size="small"
+                        multiple
+                        value={labels}
+                        onChange={handleLabels}
+                        input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+                        renderValue={(selected) => (
+                            <Stack gap={1} direction="row" flexWrap="wrap">
+                                {selected.map((value) => (
+                                    <Chip
+                                        key={value}
+                                        label={value}
+                                        onDelete={() => handleDeleteLabels(value)}
+                                        deleteIcon={
+                                            <CancelIcon
+                                                onMouseDown={(event) => event.stopPropagation()}
+                                            />
+                                        }
+                                    />
+                                ))}
+                            </Stack>
+                        )}
+                    >
+                        {toyService.gLabels.map((label) => (
+                            <MenuItem
+                                key={label}
+                                value={label}
+                            >
+                                {label}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+
+            </Box>
+
         </section>
     )
 }

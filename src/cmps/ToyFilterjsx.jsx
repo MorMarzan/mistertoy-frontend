@@ -1,20 +1,16 @@
 
 import { useEffect, useState } from "react"
 import { toyService } from "../services/toy.service"
-import { Box, Chip, FormControl, InputLabel, MenuItem, OutlinedInput, Select, TextField } from "@mui/material"
+import { Box, Chip, FormControl, InputLabel, MenuItem, OutlinedInput, Select, Stack, TextField } from "@mui/material"
+import CancelIcon from "@mui/icons-material/Cancel"
 
-export function ToyFilterDes({ filterBy, onSetFilter }) {
+export function ToyFilter({ filterBy, onSetFilter }) {
 
     const [filterByToEdit, setFilterByToEdit] = useState(filterBy)
 
     useEffect(() => {
         onSetFilter(filterByToEdit)
     }, [filterByToEdit])
-
-    function onSetFilterBy(ev) {
-        ev.preventDefault()
-        onSetFilter(filterByToEdit)
-    }
 
     function handleChange({ target }) {
         const field = target.name
@@ -54,24 +50,18 @@ export function ToyFilterDes({ filterBy, onSetFilter }) {
     }
 
 
-    function handleLabels({ target }) {
-        let value = target.value
-
-        if (value === '') {
-            setFilterByToEdit((prevToy) => ({ ...prevToy, labels: [] }))
-        } else {
-            setFilterByToEdit((prevToy) => {
-                const updatedLabels = prevToy.labels.includes(value)
-                    ? prevToy.labels.filter((label) => label !== value)
-                    : [...prevToy.labels, value];
-
-                return { ...prevToy, labels: updatedLabels }
-            })
-        }
+    function handleLabels(ev) {
+        const { target: { value }, } = ev
+        const newLabels = (typeof value === "string") ? value.split(",") : value
+        setFilterByToEdit(prevFilter => ({ ...prevFilter, labels: newLabels }))
     }
 
-    // console.log('filterByToEdit', filterByToEdit)
-    // console.log('selectedLabels', selectedLabels)
+    function handleDeleteLabels(labelToDelete) {
+        const newLabels = filterByToEdit.labels.filter((label) => label !== labelToDelete)
+        setFilterByToEdit(prevFilter => ({ ...prevFilter, labels: newLabels }))
+    }
+
+    console.log('filterByToEdit.labels', filterByToEdit.labels)
 
     const inStockOpts = [
         { label: 'Out of stock', value: 'false' },
@@ -127,22 +117,31 @@ export function ToyFilterDes({ filterBy, onSetFilter }) {
                 />
 
 
-                {/* <FormControl sx={{ m: 1, width: 300 }}>
+                <FormControl sx={{ m: 1, width: 300 }}>
                     <InputLabel id="demo-multiple-chip-label">Toy Labels</InputLabel>
                     <Select
                         labelId="demo-multiple-chip-label"
                         id="demo-multiple-chip"
-                        size="small"
+                        // size="small"
                         multiple
-                        value={labels || []}
+                        value={labels}
                         onChange={handleLabels}
                         input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
                         renderValue={(selected) => (
-                            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                            <Stack gap={1} direction="row" flexWrap="wrap">
                                 {selected.map((value) => (
-                                    <Chip key={value} label={value} />
+                                    <Chip
+                                        key={value}
+                                        label={value}
+                                        onDelete={() => handleDeleteLabels(value)}
+                                        deleteIcon={
+                                            <CancelIcon
+                                                onMouseDown={(event) => event.stopPropagation()}
+                                            />
+                                        }
+                                    />
                                 ))}
-                            </Box>
+                            </Stack>
                         )}
                     >
                         {toyService.gLabels.map((label) => (
@@ -154,17 +153,7 @@ export function ToyFilterDes({ filterBy, onSetFilter }) {
                             </MenuItem>
                         ))}
                     </Select>
-                </FormControl> */}
-
-                <label htmlFor="labels">Label:</label>
-                <select name="labels" id="labels" onChange={handleLabels} value={labels || []} multiple>
-                    <option value="">All</option>
-                    {toyService.gLabels.map((label) => (
-                        <option key={label} value={label}>
-                            {label}
-                        </option>
-                    ))}
-                </select>
+                </FormControl>
 
             </Box>
 

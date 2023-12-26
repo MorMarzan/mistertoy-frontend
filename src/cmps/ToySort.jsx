@@ -60,18 +60,6 @@ export function ToySort({ onSetSortBy, sortBy }) {
                     ))}
                 </TextField>
 
-                {/* <label>
-                    <input
-                        type="checkbox"
-                        name="dir"
-                        checked={sortByToEdit.dir < 0}
-                        onChange={handleChange}
-
-                        disabled={!sortByToEdit.type}
-                    />
-                    Descending
-                </label> */}
-
                 <Checkbox
                     name="dir"
                     checked={sortByToEdit.dir < 0}
