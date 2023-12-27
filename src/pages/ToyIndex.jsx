@@ -49,12 +49,12 @@ export function ToyIndex() {
         <main>
             <section className="toy-index">
 
-                <Link className='edit btn' to={`/toy/edit/`}>Add toy</Link>
                 <ToyFilter
                     filterBy={{ name, inStock, labels, maxPrice }}
                     onSetFilter={debounceOnSetFilter.current}
                 />
                 <ToySort onSetSortBy={onSetSortBy} sortBy={sortBy} />
+                <Link className='edit btn' to={`/toy/edit/`}>Add toy</Link>
                 <ToyList toys={toys} onRemoveToy={onRemoveToy} />
 
             </section>

@@ -3,6 +3,8 @@ import { useEffect, useState } from "react"
 import { toyService } from "../services/toy.service"
 import { Box, Chip, FormControl, InputLabel, MenuItem, OutlinedInput, Select, Stack, TextField } from "@mui/material"
 import CancelIcon from "@mui/icons-material/Cancel"
+import CheckIcon from "@mui/icons-material/Check";
+
 
 export function ToyFilter({ filterBy, onSetFilter }) {
 
@@ -82,13 +84,26 @@ export function ToyFilter({ filterBy, onSetFilter }) {
             <Box
                 component="form"
                 sx={{
-                    '& > :not(style)': { m: 1, width: '25ch' },
+                    '& > :not(style)': { m: 1, minWidth: 125 },
                 }}
                 noValidate
                 autoComplete="off"
             >
 
                 <TextField value={name} onChange={handleChange} name="name" id="outlined-basic" label="Toy name" variant="outlined" size="small"
+                />
+
+                <TextField
+                    id="outlined-number"
+                    label="Max Price"
+                    type="number"
+                    size="small"
+                    onChange={handleChange}
+                    value={maxPrice || ''}
+                    name="maxPrice"
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
                 />
 
                 <TextField
@@ -108,21 +123,8 @@ export function ToyFilter({ filterBy, onSetFilter }) {
                     ))}
                 </TextField>
 
-                <TextField
-                    id="outlined-number"
-                    label="Max Price"
-                    type="number"
-                    size="small"
-                    onChange={handleChange}
-                    value={maxPrice || ''}
-                    name="maxPrice"
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                />
+                <FormControl sx={{ m: 1, width: 415 }} size="small">
 
-
-                <FormControl sx={{ m: 1, width: 300 }}>
                     <InputLabel id="demo-multiple-chip-label">Toy Labels</InputLabel>
                     <Select
                         labelId="demo-multiple-chip-label"
@@ -131,7 +133,7 @@ export function ToyFilter({ filterBy, onSetFilter }) {
                         multiple
                         value={labels}
                         onChange={handleLabels}
-                        input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+                        input={<OutlinedInput id="select-multiple-chip" label="Toy Labels" />}
                         renderValue={(selected) => (
                             <Stack gap={1} direction="row" flexWrap="wrap">
                                 {selected.map((value) => (
@@ -153,8 +155,10 @@ export function ToyFilter({ filterBy, onSetFilter }) {
                             <MenuItem
                                 key={label}
                                 value={label}
+                                sx={{ justifyContent: "space-between" }}
                             >
                                 {label}
+                                {filterByToEdit.labels.includes(label) ? <CheckIcon color="info" /> : null}
                             </MenuItem>
                         ))}
                     </Select>

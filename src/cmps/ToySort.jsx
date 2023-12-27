@@ -1,4 +1,4 @@
-import { Box, Checkbox, MenuItem, TextField } from "@mui/material"
+import { Box, Checkbox, FormControlLabel, MenuItem, TextField } from "@mui/material"
 import { useEffect, useState } from "react"
 
 
@@ -60,12 +60,17 @@ export function ToySort({ onSetSortBy, sortBy }) {
                     ))}
                 </TextField>
 
-                <Checkbox
-                    name="dir"
-                    checked={sortByToEdit.dir < 0}
-                    onChange={handleChange}
-                    disabled={!sortByToEdit.type}
+                <FormControlLabel
                     label="Descending"
+                    control={
+                        <Checkbox
+                            name="dir"
+                            checked={sortByToEdit.dir < 0}
+                            onChange={handleChange}
+                            disabled={!sortByToEdit.type}
+                            inputProps={{ 'aria-label': 'controlled' }}
+
+                        />}
                 />
 
             </Box>

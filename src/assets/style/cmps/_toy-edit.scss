@@ -1,6 +1,7 @@
 .toy-edit form {
-    display: flex;
+    display: grid;
     align-items: center;
     gap: 0.5em;
     padding: 1em 0;
+    justify-items: start;
 }

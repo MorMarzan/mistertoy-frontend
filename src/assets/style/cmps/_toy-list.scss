@@ -3,27 +3,23 @@
     padding: 0;
     display: grid;
     gap: 0.5em;
-}
 
-.toy-list li {
-    display: grid;
-    justify-items: center;
-    background-color: var(--clr1bg);
-    padding: 0.5em;
-}
+    li {
+        display: grid;
+        justify-items: center;
+        background-color: var(--clr1bg);
+        padding: 0.5em;
 
-.toy-list li .tools {
-    display: grid;
-    grid-auto-flow: column;
-    gap: 0.5em
-}
+        .tools {
+            display: grid;
+            grid-auto-flow: column;
+            gap: 0.5em
+        }
+    }
 
-/* Tablet */
-@media (width >=768px) {
-    .toy-list {
+    //tablet mq
+    @include for-narrow-layout {
         grid-template-columns: repeat(3, 1fr);
+
     }
 }
-
-/* desktop */
-@media (width >=992px) {}

@@ -1,8 +1,13 @@
 .app-footer {
     min-height: 6em;
-}
+    background-color: var(--clr1);
+    color: var(--clr1bg);
+    padding: 1em;
+    text-align: center;
 
-.app-footer .app-nav {
-    display: flex;
-    justify-content: center;
+    .app-nav {
+        display: flex;
+        justify-content: center;
+    }
+
 }

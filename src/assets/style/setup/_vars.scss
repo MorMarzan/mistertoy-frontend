@@ -11,4 +11,22 @@
   --gray2: rgb(155, 155, 155);
   --gray3: rgb(44, 44, 44);
 
-} 
+}
+
+
+// COLOR PALETTE
+// $clr1: #FF521C;
+// $clr2: #000;
+// $clr3: #fff;
+// $clr4: darken($clr3, 40%);
+// $clr5: #2d2d2d;
+
+// // LAYOUT
+$layoutPadding: 20px;
+
+// // LAYOUT BREAKPOINTS
+$break-narrow: 768px; //tablet
+$break-wide: 992px; //desktop
+
+$padded-break-narrow: $break-narrow + $layoutPadding * 2;
+$padded-break-wide: $break-wide + $layoutPadding * 2;

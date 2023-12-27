@@ -21,7 +21,7 @@ export function ToyList({ toys, onRemoveToy }) {
                 <li key={toy._id}>
                     <ToyPreview toy={toy} />
                     <section className="tools">
-                        <button onClick={() => onRemoveToy(toy._id)}>X</button>
+                        <button className="btn" onClick={() => onRemoveToy(toy._id)}>X</button>
                         <Link className="btn" to={`/toy/${toy._id}`}>Details</Link>
                         <Link className="btn" to={`/toy/edit/${toy._id}`}>Edit</Link>
                     </section>

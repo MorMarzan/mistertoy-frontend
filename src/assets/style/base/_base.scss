@@ -2,8 +2,7 @@
   box-sizing: border-box;
 }
 
-html {
-}
+html {}
 
 body {
   margin: 0;
@@ -27,11 +26,12 @@ p {
 a {
   text-decoration: none;
   color: unset;
+
+  &.active {
+    text-decoration: underline;
+  }
 }
 
-
-
-/* Dont stretch my Media */
 img,
 embed,
 video,
@@ -39,11 +39,22 @@ object {
   max-width: 100%
 }
 
+
+.btn {
+  cursor: pointer;
+  background-color: var(--clr2bg);
+  border: 0;
+  padding: 0.5em 0.8em;
+  border-radius: 4px;
+
+  &:hover {
+    background-color: var(--clr2);
+    transition: .3s;
+  }
+
+}
+
 /* Simple and useful CSS Debugging Technique */
 .debug * {
   outline: 1px solid gold
-}
-
-a.active {
-  text-decoration: underline;
 }

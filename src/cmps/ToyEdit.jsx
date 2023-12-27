@@ -83,12 +83,13 @@ export function ToyEdit() {
                 <label htmlFor="price">Price</label>
                 <input onChange={handleChange} value={price || ''} type="number" name="price" id="price" />
 
-                <label htmlFor="inStock">in stock?</label>
-                <input onChange={handleChange} checked={inStock} type="checkbox" name="inStock" id="inStock" />
+                <div>
+                    <input onChange={handleChange} checked={inStock} type="checkbox" name="inStock" id="inStock" />
+                    <label htmlFor="inStock">in stock?</label>
+                </div>
 
                 <label htmlFor="labels">Label:</label>
                 <select name="labels" id="labels" onChange={handleLabels} value={labels || []} multiple>
-                    {/* <select name="labels" id="labels" onChange={handleLabels} value={labels[0] || ''} > */}
                     <option value="">No Label</option>
                     {toyService.gLabels.map((label) => (
                         <option key={label} value={label}>
@@ -97,9 +98,9 @@ export function ToyEdit() {
                     ))}
                 </select>
 
-                <button disabled={!name || !price}>Save</button>
+                <button className="btn" disabled={!name || !price}>Save</button>
             </form>
-            <button><Link className="btn" to={'/toy'}>← Go back</Link></button>
+            <Link className="btn" to={'/toy'}>← Go back</Link>
 
         </section>
     )

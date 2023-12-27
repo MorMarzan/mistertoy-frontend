@@ -2,13 +2,13 @@
     display: grid;
     align-items: center;
     justify-items: center;
-}
 
-.toy-preview.out-of-stock {
-    color: gray;
-}
+    &.out-of-stock {
+        color: gray;
+    }
 
-.toy-preview img {
-    max-width: 100px;
-    margin-block: 1em;
+    img {
+        max-width: 100px;
+        margin-block: 1em;
+    }
 }

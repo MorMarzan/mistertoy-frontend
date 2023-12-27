@@ -1,9 +1,17 @@
 .toy-filter {
     background-color: var(--clr1);
     padding: 1em;
-}
 
-.toy-filter form {
-    display: grid;
-    gap: 0.5em;
+    form {
+        display: grid;
+        justify-items: start;
+        grid-template-columns: repeat(3, auto);
+        justify-content: start;
+        gap: 0.5em;
+
+        >div:last-child {
+            grid-column: 1/span 2;
+            // width: 100%;
+        }
+    }
 }
