@@ -1,0 +1,24 @@
+/* Setup */
+@import 'setup/vars.scss';
+@import 'setup/typography.scss';
+
+/* Base */
+@import 'base/base.scss';
+@import 'base/helpers.scss';
+@import 'base/layout.scss';
+@import 'base/forms.scss';
+
+/* Components */
+@import 'cmps/app-header.scss';
+@import 'cmps/app-footer.scss';
+@import 'cmps/toggle-btn.scss';
+@import 'cmps/user-msg.scss';
+
+@import 'cmps/toy-filter.scss';
+@import 'cmps/toy-sort.scss';
+@import 'cmps/toy-list.scss';
+@import 'cmps/toy-preview.scss';
+@import 'cmps/toy-index.scss';
+@import 'cmps/user-edit.scss';
+@import 'cmps/toy-edit.scss';
+@import 'cmps/loader.scss';
