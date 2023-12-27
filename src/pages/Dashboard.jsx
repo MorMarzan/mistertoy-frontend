@@ -63,7 +63,7 @@ export function Dashboard() {
     }
 
     return (
-        <>
+        <section className='dashboard'>
             <label htmlFor="chart">Choose a chart:</label>
             <select name="chart" id="chart" onChange={handleChange} value={chartToDisplay}>
                 <option value={0}>Avarge price per label</option>
@@ -78,6 +78,6 @@ export function Dashboard() {
             {(chartToDisplay === 3) &&
                 <ProfitChart />
             }
-        </>
+        </section>
     )
 }

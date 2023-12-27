@@ -46,19 +46,18 @@ export function ToyIndex() {
     // console.log('isLoading', isLoading)
 
     return (
-        <main>
-            <section className="toy-index">
-
+        <>
+            <section className="toy-index main-layout full">
                 <ToyFilter
                     filterBy={{ name, inStock, labels, maxPrice }}
                     onSetFilter={debounceOnSetFilter.current}
+                    onSetSortBy={onSetSortBy} sortBy={sortBy}
                 />
-                <ToySort onSetSortBy={onSetSortBy} sortBy={sortBy} />
-                <Link className='edit btn' to={`/toy/edit/`}>Add toy</Link>
-                <ToyList toys={toys} onRemoveToy={onRemoveToy} />
 
+
+                <ToyList toys={toys} onRemoveToy={onRemoveToy} />
             </section>
-        </main>
+        </>
     )
 
 }

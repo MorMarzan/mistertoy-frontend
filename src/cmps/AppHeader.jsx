@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom"
 export function AppHeader() {
 
     return (
-        <header className="app-header">
+        <header className="app-header full">
             <section className="header-container">
                 <h1>MisterToy App</h1>
                 <nav className="app-nav">

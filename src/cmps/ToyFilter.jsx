@@ -4,9 +4,11 @@ import { toyService } from "../services/toy.service"
 import { Box, Chip, FormControl, InputLabel, MenuItem, OutlinedInput, Select, Stack, TextField } from "@mui/material"
 import CancelIcon from "@mui/icons-material/Cancel"
 import CheckIcon from "@mui/icons-material/Check";
+import { ToySort } from "./ToySort";
+import { Link } from "react-router-dom";
 
 
-export function ToyFilter({ filterBy, onSetFilter }) {
+export function ToyFilter({ filterBy, onSetFilter, onSetSortBy, sortBy }) {
 
     const [filterByToEdit, setFilterByToEdit] = useState(filterBy)
 
@@ -79,12 +81,12 @@ export function ToyFilter({ filterBy, onSetFilter }) {
     const { name, inStock, labels, maxPrice } = filterByToEdit
 
     return (
-        <section className="toy-filter">
+        <section className="toy-filter full">
             <h2>Filter Our Toys</h2>
             <Box
                 component="form"
                 sx={{
-                    '& > :not(style)': { m: 1, minWidth: 125 },
+                    // '& > :not(style)': { m: 1, minWidth: 125 },
                 }}
                 noValidate
                 autoComplete="off"
@@ -123,7 +125,8 @@ export function ToyFilter({ filterBy, onSetFilter }) {
                     ))}
                 </TextField>
 
-                <FormControl sx={{ m: 1, width: 415 }} size="small">
+                <FormControl size="small">
+                    {/* sx={{ m: 1, width: 415 }} */}
 
                     <InputLabel id="demo-multiple-chip-label">Toy Labels</InputLabel>
                     <Select
@@ -165,6 +168,8 @@ export function ToyFilter({ filterBy, onSetFilter }) {
                 </FormControl>
 
             </Box>
+            <ToySort onSetSortBy={onSetSortBy} sortBy={sortBy} />
+            <Link className='edit btn' to={`/toy/edit/`}>Add toy</Link>
 
         </section>
     )
