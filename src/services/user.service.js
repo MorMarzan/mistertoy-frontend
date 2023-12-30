@@ -54,7 +54,7 @@ async function login(userCred) {
 }
 async function signup(userCred) {
     // userCred.score = 10000
-    if (!userCred.imgUrl) userCred.imgUrl = 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png'
+    // if (!userCred.imgUrl) userCred.imgUrl = 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png'
     // const user = await storageService.post('user', userCred)
     const user = await httpService.post('auth/signup', userCred)
     return saveLocalUser(user)
@@ -74,7 +74,9 @@ async function changeScore(by) {
 
 
 function saveLocalUser(user) {
-    user = { _id: user._id, fullname: user.fullname, imgUrl: user.imgUrl, score: user.score }
+    // user = { _id: user._id, fullname: user.fullname, imgUrl: user.imgUrl, score: user.score }
+    user = { _id: user._id, fullname: user.fullname, isAdmin: user.isAdmin }
+    console.log('saveLocalUser user', user)
     sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(user))
     return user
 }

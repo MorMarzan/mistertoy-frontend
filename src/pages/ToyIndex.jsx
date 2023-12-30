@@ -13,6 +13,7 @@ import { utilService } from "../services/util.service"
 export function ToyIndex() {
 
     const toys = useSelector(storeState => storeState.toyModule.toys)
+    const user = useSelector(storeState => storeState.userModule.loggedinUser)
     // const isLoading = useSelector(storeState => storeState.toyModule.isLoading)
     const filterBy = useSelector(storeState => storeState.toyModule.filterBy)
     const sortBy = useSelector(storeState => storeState.toyModule.sortBy)
@@ -59,10 +60,11 @@ export function ToyIndex() {
                     filterBy={{ name, inStock, labels, maxPrice }}
                     onSetFilter={debounceOnSetFilter.current}
                     onSetSortBy={onSetSortBy} sortBy={sortBy}
+                    user={user}
                 />
 
 
-                <ToyList toys={toys} onRemoveToy={onRemoveToy} />
+                <ToyList toys={toys} onRemoveToy={onRemoveToy} user={user} />
             </section>
         </>
     )

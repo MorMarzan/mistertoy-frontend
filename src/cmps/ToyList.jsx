@@ -4,7 +4,7 @@
 import { Link } from "react-router-dom";
 import { ToyPreview } from "./ToyPreview";
 
-export function ToyList({ toys, onRemoveToy }) {
+export function ToyList({ toys, onRemoveToy, user }) {
 
     const ulProps = {
         className: "toy-list",
@@ -21,9 +21,13 @@ export function ToyList({ toys, onRemoveToy }) {
                 <li key={toy._id}>
                     <ToyPreview toy={toy} />
                     <section className="tools">
-                        <button className="btn" onClick={() => onRemoveToy(toy._id)}>X</button>
                         <Link className="btn" to={`/toy/${toy._id}`}>Details</Link>
-                        <Link className="btn" to={`/toy/edit/${toy._id}`}>Edit</Link>
+                        {user && user.isAdmin &&
+                            <>
+                                <Link className="btn" to={`/toy/edit/${toy._id}`}>Edit</Link>
+                                <button className="btn" onClick={() => onRemoveToy(toy._id)}>X</button>
+                            </>
+                        }
                     </section>
                 </li>
             )}

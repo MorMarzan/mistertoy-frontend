@@ -8,7 +8,7 @@ import { ToySort } from "./ToySort";
 import { Link } from "react-router-dom";
 
 
-export function ToyFilter({ filterBy, onSetFilter, onSetSortBy, sortBy }) {
+export function ToyFilter({ filterBy, onSetFilter, onSetSortBy, sortBy, user }) {
 
     const [filterByToEdit, setFilterByToEdit] = useState(filterBy)
 
@@ -172,7 +172,9 @@ export function ToyFilter({ filterBy, onSetFilter, onSetSortBy, sortBy }) {
 
             </Box>
             <ToySort onSetSortBy={onSetSortBy} sortBy={sortBy} />
-            <Link className='edit btn' to={`/toy/edit/`}>Add toy</Link>
+            {user && user.isAdmin &&
+                <Link className='edit btn' to={`/toy/edit/`}>Add toy</Link>
+            }
 
         </section>
     )
