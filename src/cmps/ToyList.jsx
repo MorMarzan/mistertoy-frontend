@@ -6,17 +6,11 @@ import { ToyPreview } from "./ToyPreview";
 
 export function ToyList({ toys, onRemoveToy, user }) {
 
-    const ulProps = {
-        className: "toy-list",
-        title: 'toy'
-    }
-
-
     if (!toys) return <div>Loading...</div>
     if (!toys.length) return <h3>No toy match the filter</h3>
 
     return (
-        <ul {...ulProps} >
+        <ul className="toy-list" >
             {toys.map(toy =>
                 <li key={toy._id}>
                     <ToyPreview toy={toy} />

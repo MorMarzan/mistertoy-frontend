@@ -1,5 +1,5 @@
 import { toyService } from "../../services/toy.service.js"
-import { ADD_TOY, REMOVE_TOY, SET_TOYS, UPDATE_TOY, SET_FILTER_BY, SET_IS_LOADING, SET_SORT_BY } from "../reducers/toy.reducer.js"
+import { ADD_TOY, REMOVE_TOY, SET_TOYS, UPDATE_TOY, SET_FILTER_BY, SET_IS_LOADING, SET_SORT_BY, ADD_MSG, UPDATE_MSG } from "../reducers/toy.reducer.js"
 import { store } from "../store.js"
 
 export async function loadToys() {
@@ -68,6 +68,21 @@ export async function saveToy(toy) {
         throw err
     }
 }
+
+export async function saveToyMsg(msg, toyId) {
+    const type = msg.id ? UPDATE_MSG : ADD_MSG
+    try {
+        const msgToSave = await toyService.saveMsg(msg, toyId)
+        console.log('msgToSave reducer', msgToSave)
+        // store.dispatch({ type, toy: toyToSave })
+        // store.dispatch({ type, msg: msgToSave })
+        return msgToSave
+    } catch (err) {
+        console.error('toy action -> Cannot save msg', err)
+        throw err
+    }
+}
+window.saveToyMsg = saveToyMsg
 
 export function setFilterBy(filterBy) {
     store.dispatch({ type: SET_FILTER_BY, filterBy })

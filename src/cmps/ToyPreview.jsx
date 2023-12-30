@@ -3,7 +3,6 @@ import dollPng from '../assets/img/bear.png'
 import { utilService } from '../services/util.service'
 
 export function ToyPreview({ toy }) {
-
     const dynClass = !toy.inStock ? 'out-of-stock' : ''
 
     const { name, price, inStock } = toy

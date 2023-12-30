@@ -17,7 +17,8 @@ export const toyService = {
     remove,
     getEmptyToy,
     getDefaultFilter,
-    gLabels
+    gLabels,
+    saveMsg
 }
 
 function query(filterBy = {}, sortBy = { type: '', dir: 1 }) {
@@ -38,6 +39,15 @@ function save(toy) {
         return httpService.put(BASE_URL, toy)
     } else {
         return httpService.post(BASE_URL, toy)
+    }
+}
+
+function saveMsg(msg, toyId) {
+    const msgUrl = BASE_URL + toyId + '/msg'
+    if (msg.id) {
+        return httpService.put(msgUrl + '/msg.id', msg)
+    } else {
+        return httpService.post(msgUrl, msg)
     }
 }
 
