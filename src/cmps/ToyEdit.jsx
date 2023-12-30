@@ -12,12 +12,19 @@ export function ToyEdit() {
     const [toyToEdit, setToyToEdit] = useState(toyService.getEmptyToy())
 
     useEffect(() => {
-        if (toyId) {
-            loadToy(toyId)
-                .then(setToyToEdit)
-                .catch(err => console.log('err:', err))
+        _loadToy()
+    }, [toyId])
+
+    async function _loadToy() {
+        try {
+            if (toyId) {
+                const toyToEdit = await loadToy(toyId)
+                setToyToEdit(toyToEdit)
+            }
+        } catch (err) {
+            console.error('Error loading toy:', err)
         }
-    }, [])
+    }
 
     function handleChange({ target }) {
         const field = target.name
@@ -26,15 +33,18 @@ export function ToyEdit() {
         switch (target.type) {
             case 'number':
             case 'range':
-                value = +value
-                break;
+                // value = +value
+                if (value !== '') {
+                    value = Math.max(+value, 1) // Ensure value is at least 1
+                }
+                break
 
             case 'checkbox':
                 value = target.checked
                 break
 
             default:
-                break;
+                break
         }
 
         setToyToEdit(prevToy => ({ ...prevToy, [field]: value }))
@@ -58,17 +68,16 @@ export function ToyEdit() {
         }
     }
 
-    function onSaveToy(ev) {
+    async function onSaveToy(ev) {
         ev.preventDefault()
-        saveToy(toyToEdit)
-            .then((savedToy) => {
-                showSuccessMsg(`Toy updated successfully ${savedToy.name}`)
-                navigate('/toy')
-            })
-            .catch(err => {
-                console.log('Cannot update toy', err)
-                showErrorMsg('Cannot update toy')
-            })
+        try {
+            const savedToy = await saveToy(toyToEdit)
+            showSuccessMsg(`Toy updated successfully ${savedToy.name}`)
+            navigate('/toy')
+        } catch (err) {
+            console.log('Cannot update toy', err)
+            showErrorMsg('Cannot update toy')
+        }
     }
 
     const { name, inStock, price, labels } = toyToEdit

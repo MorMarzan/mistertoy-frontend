@@ -18,43 +18,38 @@ export const toyService = {
 
 _createToys()
 
-function query(filterBy, sortBy = { type: '', dir: 1 }) {
+async function query(filterBy, sortBy = { type: '', dir: 1 }) {
     // return axios.get(BASE_URL).then(res => res.data)
     // return storageService.query(STORAGE_KEY)
-    return storageService.query(STORAGE_KEY)
-        .then(toys => {
-            if (filterBy.name) {
-                const regExp = new RegExp(filterBy.name, 'i')
-                toys = toys.filter(toy => regExp.test(toy.name))
-            }
-            if (filterBy.inStock !== undefined) {
-                toys = toys.filter(toy => toy.inStock === filterBy.inStock)
-            }
-            if (filterBy.maxPrice) {
-                toys = toys.filter(toy => toy.price <= filterBy.maxPrice)
-            }
-            if (filterBy.labels) {
-                toys = toys.filter(toy => toy.labels.includes(filterBy.labels))
-            }
-            // if (filterBy.labels) {
-            //     const filterLabelsLowerCase = filterBy.labels.toLowerCase().replace(/\s/g, '');
-            //     toys = toys.filter(toy => {
-            //         const toyLabelsLowerCase = toy.labels.map(label => label.toLowerCase().replace(/\s/g, ''))
-            //         return toyLabelsLowerCase.includes(filterLabelsLowerCase)
-            //     })
-            // }
-            if (sortBy.type === 'price') { //numeric
-                toys.sort((b1, b2) => (b1.price - b2.price) * sortBy.dir)
-            }
-            else if (sortBy.type === 'createdAt') { //numeric
-                toys.sort((b1, b2) => (b1.createdAt - b2.createdAt) * sortBy.dir)
-            }
-            else if (sortBy.type === 'name') { //abc
-                toys.sort((b1, b2) => (b1.name.localeCompare(b2.name) * sortBy.dir))
-            }
+    try {
+        const toys = await storageService.query(STORAGE_KEY)
 
-            return toys
-        })
+        if (filterBy.name) {
+            const regExp = new RegExp(filterBy.name, 'i')
+            toys = toys.filter(toy => regExp.test(toy.name))
+        }
+        if (filterBy.inStock !== undefined) {
+            toys = toys.filter(toy => toy.inStock === filterBy.inStock)
+        }
+        if (filterBy.maxPrice) {
+            toys = toys.filter(toy => toy.price <= filterBy.maxPrice)
+        }
+        if (filterBy.labels) {
+            toys = toys.filter(toy => toy.labels.includes(filterBy.labels))
+        }
+        if (sortBy.type === 'price') {
+            toys.sort((b1, b2) => (b1.price - b2.price) * sortBy.dir)
+        } else if (sortBy.type === 'createdAt') {
+            toys.sort((b1, b2) => (b1.createdAt - b2.createdAt) * sortBy.dir)
+        } else if (sortBy.type === 'name') {
+            toys.sort((b1, b2) => b1.name.localeCompare(b2.name) * sortBy.dir)
+        }
+
+        return toys
+    } catch (error) {
+        console.error('Error querying toys:', error)
+        throw error
+    }
 }
 
 function getById(toyId) {

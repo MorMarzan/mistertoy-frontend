@@ -28,7 +28,10 @@ export function ToyFilter({ filterBy, onSetFilter, onSetSortBy, sortBy }) {
         switch (target.type) {
             case 'number':
             case 'range':
-                value = Math.max(1, +value)
+                // value = +value
+                if (value !== '') {
+                    value = Math.max(+value, 1) // Ensure value is at least 1
+                }
                 break
 
             case 'checkbox':

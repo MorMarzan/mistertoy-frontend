@@ -19,19 +19,26 @@ export function ToyIndex() {
     const debounceOnSetFilter = useRef(utilService.debounce(onSetFilter, 500))
 
     useEffect(() => {
-        loadToys()
-            .catch(() => { showErrorMsg('Cannot show toys') })
+        _loadToys()
     }, [filterBy, sortBy])
 
-    function onRemoveToy(toyId) {
-        removeToy(toyId)
-            .then(() => {
-                showSuccessMsg('Toy removed')
-            })
-            .catch(err => {
-                console.log('Cannot remove toy', err)
-                showErrorMsg('Cannot remove toy')
-            })
+    async function _loadToys() {
+        try {
+            await loadToys()
+        } catch (error) {
+            console.error('Error loading toys:', error)
+            showErrorMsg('Cannot show toys')
+        }
+    }
+
+    async function onRemoveToy(toyId) {
+        try {
+            await removeToy(toyId)
+            showSuccessMsg('Toy removed')
+        } catch (err) {
+            console.log('Cannot remove toy', err)
+            showErrorMsg('Cannot remove toy')
+        }
     }
 
     function onSetFilter(filterBy) {

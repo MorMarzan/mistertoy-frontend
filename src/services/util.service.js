@@ -7,7 +7,9 @@ export const utilService = {
     animateCSS,
     debounce,
     formatTimestamp,
-    randomPeriodOfTime
+    randomPeriodOfTime,
+    objectIdToDate,
+    capitalizeFirstLetter
 }
 
 function makeId(length = 6) {
@@ -135,4 +137,13 @@ function randomPeriodOfTime() {
     const randomTimeRange = Math.floor(Math.random() * (2 * year - minute) + minute) - year;
 
     return randomTimeRange; // Return the random time range
+}
+
+function objectIdToDate(objectId) {
+    const timestamp = parseInt(objectId.substring(0, 8), 16);
+    return new Date(timestamp * 1000); // Convert to milliseconds
+}
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
 }

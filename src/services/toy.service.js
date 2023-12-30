@@ -46,7 +46,7 @@ function getEmptyToy(name = '', price = '') {
         name,
         price,
         labels: [],
-        createdAt: Date.now(),
+        // createdAt: Date.now(),
         inStock: false,
     }
 }
