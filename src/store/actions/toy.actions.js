@@ -73,16 +73,25 @@ export async function saveToyMsg(msg, toyId) {
     const type = msg.id ? UPDATE_MSG : ADD_MSG
     try {
         const msgToSave = await toyService.saveMsg(msg, toyId)
-        console.log('msgToSave reducer', msgToSave)
-        // store.dispatch({ type, toy: toyToSave })
-        // store.dispatch({ type, msg: msgToSave })
+        store.dispatch({ type, msg: msgToSave, toyId: toyId })
         return msgToSave
     } catch (err) {
         console.error('toy action -> Cannot save msg', err)
         throw err
     }
 }
-window.saveToyMsg = saveToyMsg
+
+export async function removeToyMsg(msgId, toyId) {
+    try {
+        await toyService.removeMsg(msgId, toyId)
+        store.dispatch({ type: REMOVE_TOY, msgId: msgId, toyId: toyId })
+    } catch (err) {
+        console.error('toy action -> Cannot remove msg', err)
+        throw err
+    }
+}
+
+window.removeToyMsg = removeToyMsg
 
 export function setFilterBy(filterBy) {
     store.dispatch({ type: SET_FILTER_BY, filterBy })

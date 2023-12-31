@@ -1,44 +1,50 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 
-import { loadToy } from '../store/actions/toy.actions.js'
+import { loadToy, removeToyMsg } from '../store/actions/toy.actions.js'
 import { utilService } from '../services/util.service.js'
+import { MsgEdit } from '../cmps/MsgEdit.jsx'
+import { MsgList } from '../cmps/MsgList.jsx'
+import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service.js'
+import { useSelector } from 'react-redux'
 
 export function ToyDetails() {
 
     const [toy, setToy] = useState(null)
+    const [msgUpdated, setMsgUpdated] = useState(false)
+    const user = useSelector(storeState => storeState.userModule.loggedinUser)
+
     const { toyId } = useParams()
 
     useEffect(() => {
         _loadToy()
-    }, [toyId])
+    }, [toyId, msgUpdated])
 
     async function _loadToy() {
         try {
             const loadedToy = await loadToy(toyId)
             setToy(loadedToy)
+            setMsgUpdated(false)
         } catch (err) {
             console.error('Error loading toy:', err)
         }
     }
 
-    // async function onSaveMsg(ev) {
-    //     ev.preventDefault()
-    //     try {
-    //         const savedMsg = await saveToyMsg(msgToEdit)
-    //         showSuccessMsg(`Msg updated successfully ${savedMsg.name}`)
-    //     } catch (err) {
-    //         console.log('Cannot update msg', err)
-    //         showErrorMsg('Cannot update msg')
-    //     }
-
-    // }
+    async function onRemoveMsg(msgId) {
+        try {
+            await removeToyMsg(msgId, toyId)
+            showSuccessMsg('Msg removed')
+            setMsgUpdated(true)
+        } catch (err) {
+            console.log('Cannot remove msg', err)
+            showErrorMsg('Cannot remove msg')
+        }
+    }
 
     if (!toy) return <div>Loading...</div>
 
     const { name, price, inStock, _id, labels, msgs } = toy //replace createdAt with _id so it'll work with mongo's id
     const createdAt = utilService.objectIdToDate(_id)
-
 
     return (
         <section className="toy-details">
@@ -49,25 +55,12 @@ export function ToyDetails() {
             <h3>Created: {utilService.formatTimestamp(createdAt)}</h3>
             <h3>Labels: {labels.join(', ')}</h3>
 
-            <section className='toy-msg'>
-                {(!msgs || !msgs.length) ?
-                    (<p>No msgs yet, be the first one to write!</p>)
-                    :
-                    (msgs.map(msg =>
-                        <p key={msg.id}>
-                            {msg.txt + ' '}
-                            <span>by: {msg.by.fullname}</span>
-                        </p>
-                    ))
-                }
-            </section>
-
-            {/* <form onSubmit={onSaveMsg}>
-                <label htmlFor="txt">Msg</label>
-                <input type="text" name="txt" id="txt" />
-                <button className="btn">Add Msg</button>
-            </form> */}
-
+            <MsgList msgs={msgs} onRemoveMsg={onRemoveMsg} user={user} />
+            {user ?
+                <MsgEdit toyId={toyId} setMsgUpdated={setMsgUpdated} />
+                :
+                <p>Sign up to add new msg</p>
+            }
 
             <Link className="btn" to={'/toy'}>← Go back</Link>
         </section>

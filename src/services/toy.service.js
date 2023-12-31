@@ -18,7 +18,8 @@ export const toyService = {
     getEmptyToy,
     getDefaultFilter,
     gLabels,
-    saveMsg
+    saveMsg,
+    removeMsg
 }
 
 function query(filterBy = {}, sortBy = { type: '', dir: 1 }) {
@@ -49,6 +50,11 @@ function saveMsg(msg, toyId) {
     } else {
         return httpService.post(msgUrl, msg)
     }
+}
+
+function removeMsg(msgId, toyId) {
+    const msgUrl = BASE_URL + toyId + '/msg/' + msgId
+    return httpService.delete(msgUrl)
 }
 
 function getEmptyToy(name = '', price = '') {

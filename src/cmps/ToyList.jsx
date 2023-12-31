@@ -1,6 +1,3 @@
-// import { ToyPreview } from "./ToyPreview.jsx";
-// const { Link } = ReactRouterDOM
-
 import { Link } from "react-router-dom";
 import { ToyPreview } from "./ToyPreview";
 
