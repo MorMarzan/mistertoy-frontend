@@ -10,11 +10,10 @@ import { useSelector } from 'react-redux'
 
 export function ToyDetails() {
 
+    const { toyId } = useParams()
     const [toy, setToy] = useState(null)
     const [msgUpdated, setMsgUpdated] = useState(false)
     const user = useSelector(storeState => storeState.userModule.loggedinUser)
-
-    const { toyId } = useParams()
 
     useEffect(() => {
         _loadToy()

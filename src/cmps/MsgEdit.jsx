@@ -22,9 +22,7 @@ export function MsgEdit({ msg, toyId, setMsgUpdated }) {
             console.log('Cannot update msg', err)
             showErrorMsg('Cannot update msg')
         }
-
     }
-
 
     function handleChange({ target }) {
         const field = target.name
