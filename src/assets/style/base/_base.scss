@@ -58,3 +58,10 @@ object {
 .debug * {
   outline: 1px solid gold
 }
+
+.page {
+  display: grid;
+  padding-block: 20px;
+  grid-auto-rows: max-content;
+  gap: 15px
+}

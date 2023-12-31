@@ -5,7 +5,7 @@ export function MsgList({ msgs, onRemoveMsg, user }) {
     if (!msgs || !msgs.length) return <p>No msgs yet, be the first one to write!</p>
 
     return (
-        <ul className="msg-list" >
+        <ul className="msg-list clean-list" >
             {msgs.map(msg =>
                 <li key={msg.id}>
                     {msg.txt + ' '}

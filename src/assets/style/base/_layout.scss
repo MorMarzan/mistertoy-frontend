@@ -32,11 +32,12 @@
   }
 
   main {
-    @include for-narrow-layout {
-      // @include layoutGTC($break-narrow);
-      min-height: calc(100vh - 12em);
-    }
+    // @include for-narrow-layout {
+    // @include layoutGTC($break-narrow);
+    min-height: calc(100vh - 12em);
+    // }
   }
+
 }
 
 

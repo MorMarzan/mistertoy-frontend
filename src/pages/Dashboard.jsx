@@ -5,6 +5,7 @@ import { loadToys } from '../store/actions/toy.actions'
 import { showErrorMsg } from '../services/event-bus.service'
 import { ProfitChart } from '../cmps/ProfitsChart'
 import { LabelsChart } from '../cmps/LabelsChart'
+import { MenuItem, TextField } from '@mui/material'
 
 
 export function Dashboard() {
@@ -62,15 +63,40 @@ export function Dashboard() {
         setChartToDisplay(value)
     }
 
+    const chartOpts = [
+        { label: 'Avarge price per label', value: 0 },
+        { label: 'Number of toys per label', value: 1 },
+        { label: 'In stock percentage per label', value: 2 },
+        { label: 'Income per month', value: 3 }
+    ]
+
     return (
-        <section className='dashboard'>
-            <label htmlFor="chart">Choose a chart:</label>
+        <section className='page dashboard'>
+            {/* <label htmlFor="chart">Choose a chart:</label>
             <select name="chart" id="chart" onChange={handleChange} value={chartToDisplay}>
                 <option value={0}>Avarge price per label</option>
                 <option value={1}>Number of toys per label</option>
                 <option value={2}>In stock percentage per label</option>
                 <option value={3}>Income per month</option>
-            </select>
+            </select> */}
+
+            <TextField
+                id="outlined-select-currency"
+                select
+                className="chart"
+                label="Chart"
+                name="chart"
+                value={chartToDisplay}
+                onChange={handleChange}
+                size="small"
+
+            >
+                {chartOpts.map((option) => (
+                    <MenuItem key={option.value} value={option.value}>
+                        {option.label}
+                    </MenuItem>
+                ))}
+            </TextField>
 
             {(chartToDisplay !== 3) &&
                 <LabelsChart chartInfo={chartInfo[chartToDisplay]} toyLabels={toyLabels} />

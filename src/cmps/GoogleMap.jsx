@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import GoogleMapReact from 'google-map-react'
-import { Button, ButtonGroup } from '@mui/material'
+import { Button, ButtonGroup, useMediaQuery } from '@mui/material'
 
 const Marker = ({ text = '🧸', ...props }) => (
     <div
@@ -35,9 +35,14 @@ export function GoogleMap() {
         { name: 'Beer Sheva', lat: 31.2525, lng: 34.7915 },
     ]
 
+    const matches = useMediaQuery("(min-width:600px)")
+
     return (
         <>
-            <ButtonGroup color="secondary" variant="outlined" aria-label="outlined primary button group">
+            <ButtonGroup color="secondary" variant="outlined"
+                aria-label="outlined primary button group"
+                orientation={`${matches ? `horizontal` : `vertical`}`}
+            >
                 {locations.map((location) => (
                     <Button key={location.name} onClick={() => setCenter({ lat: location.lat, lng: location.lng })}>
                         {location.name}
