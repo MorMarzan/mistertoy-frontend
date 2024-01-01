@@ -7,6 +7,8 @@ import { MsgEdit } from '../cmps/MsgEdit.jsx'
 import { MsgList } from '../cmps/MsgList.jsx'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service.js'
 import { useSelector } from 'react-redux'
+import { loadReviews } from '../store/actions/review.actions.js'
+import { ReviewList } from '../cmps/ReviewList.jsx'
 
 export function ToyDetails() {
 
@@ -14,9 +16,11 @@ export function ToyDetails() {
     const [toy, setToy] = useState(null)
     const [msgUpdated, setMsgUpdated] = useState(false)
     const user = useSelector(storeState => storeState.userModule.loggedinUser)
+    const reviews = useSelector(storeState => storeState.reviewModule.reviews)
 
     useEffect(() => {
         _loadToy()
+        _loadReviews()
     }, [toyId, msgUpdated])
 
     async function _loadToy() {
@@ -28,6 +32,17 @@ export function ToyDetails() {
             console.error('Error loading toy:', err)
         }
     }
+
+    async function _loadReviews() {
+        try {
+            await loadReviews({ toyId: toyId })
+            // setMsgUpdated(false)
+        } catch (err) {
+            console.error('Error loading toy:', err)
+        }
+    }
+
+    console.log('reviews', reviews)
 
     async function onRemoveMsg(msgId) {
         try {
@@ -60,6 +75,9 @@ export function ToyDetails() {
                 :
                 <p>Sign up to add new msg</p>
             }
+
+            <h3>Toy's Reviews</h3>
+            <ReviewList reviews={reviews} user={user} />
 
             <Link className="btn" to={'/toy'}>← Go back</Link>
         </section>
