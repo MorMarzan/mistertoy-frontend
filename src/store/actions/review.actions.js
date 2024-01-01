@@ -28,11 +28,25 @@ export async function loadReviews(filterBy) {
 }
 
 export async function addReview(review) {
+
+  const reviewToBE = {
+    txt: review.txt,
+    toyId: review.toy._id,
+  }
+
   try {
-    const addedReview = await reviewService.add(review)
-    store.dispatch(getActionAddReview(addedReview))
-    // const { score } = addedReview.byUser
-    // store.dispatch({ type: SET_SCORE, score })
+    const addedReview = await reviewService.add(reviewToBE)
+
+    delete addedReview.userId
+    delete addedReview.toyId
+    const { name, price, _id: toyId } = review.toy
+    const { fullname, _id: userId } = review.user
+    const reviewToFE = {
+      ...addedReview, toy: { name, price, _id: toyId }, user: { _id: userId, fullname }
+    }
+
+    store.dispatch(getActionAddReview(reviewToFE))
+    return addedReview
   } catch (err) {
     console.log('ReviewActions: err in addReview', err)
     throw err

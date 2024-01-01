@@ -7,8 +7,9 @@ import { MsgEdit } from '../cmps/MsgEdit.jsx'
 import { MsgList } from '../cmps/MsgList.jsx'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service.js'
 import { useSelector } from 'react-redux'
-import { loadReviews } from '../store/actions/review.actions.js'
+import { loadReviews, removeReview } from '../store/actions/review.actions.js'
 import { ReviewList } from '../cmps/ReviewList.jsx'
+import { ReviewEdit } from '../cmps/ReviewEdit.jsx'
 
 export function ToyDetails() {
 
@@ -42,8 +43,6 @@ export function ToyDetails() {
         }
     }
 
-    console.log('reviews', reviews)
-
     async function onRemoveMsg(msgId) {
         try {
             await removeToyMsg(msgId, toyId)
@@ -55,13 +54,24 @@ export function ToyDetails() {
         }
     }
 
+    async function onRemoveReview(reviewId) {
+        try {
+            await removeReview(reviewId)
+            showSuccessMsg('Review removed')
+            setMsgUpdated(true)
+        } catch (err) {
+            console.log('Cannot remove review', err)
+            showErrorMsg('Cannot remove review')
+        }
+    }
+
     if (!toy) return <div>Loading...</div>
 
     const { name, price, inStock, _id, labels, msgs } = toy //replace createdAt with _id so it'll work with mongo's id
     const createdAt = utilService.objectIdToDate(_id)
 
     return (
-        <section className="toy-details">
+        <section className="page toy-details">
             <h2>Toy Details</h2>
             <h3>Toy: {utilService.capitalizeFirstLetter(name)}</h3>
             <h3>Price: {price}$</h3>
@@ -69,6 +79,7 @@ export function ToyDetails() {
             <h3>Created: {utilService.formatTimestamp(createdAt)}</h3>
             <h3>Labels: {labels.join(', ')}</h3>
 
+            <h3>Toy's Msgs</h3>
             <MsgList msgs={msgs} onRemoveMsg={onRemoveMsg} user={user} />
             {user ?
                 <MsgEdit toyId={toyId} setMsgUpdated={setMsgUpdated} />
@@ -77,7 +88,12 @@ export function ToyDetails() {
             }
 
             <h3>Toy's Reviews</h3>
-            <ReviewList reviews={reviews} user={user} />
+            <ReviewList reviews={reviews} user={user} onRemoveReview={onRemoveReview} />
+            {user ?
+                <ReviewEdit toy={toy} setMsgUpdated={setMsgUpdated} user={user} />
+                :
+                <p>Sign up to add new msg</p>
+            }
 
             <Link className="btn" to={'/toy'}>← Go back</Link>
         </section>
