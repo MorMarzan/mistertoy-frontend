@@ -13,14 +13,15 @@
         .tools {
             display: grid;
             grid-auto-flow: column;
-            gap: 0.5em
+            gap: 0.5em;
+            align-self: end;
         }
     }
 
     //tablet mq
     @include for-narrow-layout {
         grid-template-columns: repeat(3, 1fr);
-        align-items: center;
+        align-content: center;
 
     }
 }
