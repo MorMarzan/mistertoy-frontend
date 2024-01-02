@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux'
 import { loadReviews, removeReview } from '../store/actions/review.actions.js'
 import { ReviewList } from '../cmps/ReviewList.jsx'
 import { ReviewEdit } from '../cmps/ReviewEdit.jsx'
+import { ChatRoom } from '../cmps/ChatRoom.jsx'
 
 export function ToyDetails() {
 
@@ -96,6 +97,7 @@ export function ToyDetails() {
             }
 
             <Link className="btn" to={'/toy'}>← Go back</Link>
+            <ChatRoom user={user} toy={toy} />
         </section>
     )
 }
