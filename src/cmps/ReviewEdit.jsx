@@ -52,7 +52,7 @@ export function ReviewEdit({ review, toy, user, setMsgUpdated }) {
 
     return (
         <section className="review-edit">
-            <form onSubmit={onSaveReview}>
+            <form onSubmit={onSaveReview} className="flex align-center gap">
                 <label htmlFor="txt">Review</label>
                 <input onChange={handleChange} value={txt} type="text" name="txt" id="txt" />
                 <button className="btn" disabled={!txt}>Save Review</button>

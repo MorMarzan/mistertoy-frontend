@@ -7,7 +7,7 @@ export function ReviewList({ reviews, user, onRemoveReview }) {
     return (
         <ul className="review-list clean-list" >
             {reviews.map(review =>
-                <li key={review._id}>
+                <li key={review._id} className="flex align-center gap">
                     {review.txt + ' '}
                     <span>by: {review.user.username}</span>
                     <section className="tools">

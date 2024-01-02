@@ -7,7 +7,7 @@ export function MsgList({ msgs, onRemoveMsg, user }) {
     return (
         <ul className="msg-list clean-list" >
             {msgs.map(msg =>
-                <li key={msg.id}>
+                <li key={msg.id} className="flex align-center gap">
                     {msg.txt + ' '}
                     <span>by: {msg.by.fullname}</span>
                     <section className="tools">

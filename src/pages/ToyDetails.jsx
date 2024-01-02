@@ -73,8 +73,8 @@ export function ToyDetails() {
 
     return (
         <section className="page toy-details">
-            <h2>Toy Details</h2>
-            <h3>Toy: {utilService.capitalizeFirstLetter(name)}</h3>
+            {/* <h2>Toy Details</h2> */}
+            <h2>{utilService.capitalizeFirstLetter(name)}</h2>
             <h3>Price: {price}$</h3>
             <h3>In stock? {inStock ? 'yes' : 'no'}</h3>
             <h3>Created: {utilService.formatTimestamp(createdAt)}</h3>

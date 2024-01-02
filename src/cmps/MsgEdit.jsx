@@ -50,7 +50,7 @@ export function MsgEdit({ msg, toyId, setMsgUpdated }) {
 
     return (
         <section className="msg-edit">
-            <form onSubmit={onSaveMsg}>
+            <form onSubmit={onSaveMsg} className="flex align-center gap">
                 <label htmlFor="txt">Msg</label>
                 <input onChange={handleChange} value={txt} type="text" name="txt" id="txt" />
                 <button className="btn" disabled={!txt}>Save Msg</button>

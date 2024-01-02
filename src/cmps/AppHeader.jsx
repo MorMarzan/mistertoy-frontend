@@ -47,10 +47,11 @@ export function AppHeader() {
                 </nav>
             </section>
             {user ? (
-                < section >
-                    <span to={`/user/${user._id}`}>Hello {user.fullname}</span>
+                <section className="align-center flex gap">
+                    {/* <span to={`/user/${user._id}`}>Hello {user.fullname}</span> */}
+                    <span>Hello, {user.fullname}</span>
                     <button onClick={onLogout}>Logout</button>
-                </ section >
+                </section>
             ) : (
                 <section>
                     <LoginSignup onSetUser={onSetUser} />
