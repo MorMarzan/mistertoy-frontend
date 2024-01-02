@@ -8,7 +8,7 @@ export function ChatRoom({ user, toy }) {
     const [msg, setMsg] = useState({ txt: '' })
     const [msgs, setMsgs] = useState([])
     const [topic, setTopic] = useState(toy._id)
-    const [typingUserName, setTypingUserName] = useState('')
+    const [typingUsers, setTypingUsers] = useState([])
     const typingTimeoutRef = useRef(null)
 
 
@@ -37,11 +37,15 @@ export function ChatRoom({ user, toy }) {
 
     function onUserTyping(userName) {
         // console.log('userName from socket', userName)
-        setTypingUserName(userName)
-
-        if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current)
-        typingTimeoutRef.current = setTimeout(() => {
-            setTypingUserName('')
+        setTypingUsers(prevUsers => {
+            if (!prevUsers.includes(userName)) {
+                return [...prevUsers, userName]
+            } else {
+                return prevUsers
+            }
+        })
+        setTimeout(() => {
+            setTypingUsers(prevUsers => prevUsers.filter(user => user !== userName))
         }, 3000)
     }
 
@@ -63,7 +67,7 @@ export function ChatRoom({ user, toy }) {
         addMsg(newMsg)
         setMsg({ txt: '' })
         if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current)
-        setTypingUserName('')
+        setTypingUsers(prevUsers => prevUsers.filter(userName => userName !== from))
     }
 
     function handleFormChange(ev) {
@@ -77,7 +81,9 @@ export function ChatRoom({ user, toy }) {
     return (
         <section className="chat-room">
             <h2>Lets Chat about {toy.name}</h2>
-            {typingUserName && <p>{typingUserName} is typing...</p>}
+            {typingUsers.length > 0 && (
+                <p>{typingUsers.join(', ')} {typingUsers.length > 1 ? 'are' : 'is'} typing...</p>
+            )}
 
             <form onSubmit={sendMsg}>
                 <input
