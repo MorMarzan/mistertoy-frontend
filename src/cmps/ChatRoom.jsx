@@ -1,13 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 
-import { socketService, SOCKET_EMIT_SEND_MSG, SOCKET_EVENT_ADD_MSG, SOCKET_EMIT_SET_TOPIC } from '../services/socket.service'
+import { socketService, SOCKET_EMIT_SEND_MSG, SOCKET_EVENT_ADD_MSG, SOCKET_EMIT_SET_TOPIC, SOCKET_EMIT_USER_TYPING, SOCKET_EVENT_USER_TYPING } from '../services/socket.service'
 
 export function ChatRoom({ user, toy }) {
 
     const [msg, setMsg] = useState({ txt: '' })
     const [msgs, setMsgs] = useState([])
     const [topic, setTopic] = useState(toy._id)
+    const [typingUserName, setTypingUserName] = useState('')
+    const typingTimeoutRef = useRef(null)
+
+
     // const [isBotMode, setIsBotMode] = useState(false)
 
 
@@ -15,8 +19,10 @@ export function ChatRoom({ user, toy }) {
 
     useEffect(() => {
         socketService.on(SOCKET_EVENT_ADD_MSG, addMsg) //listen to other people msgs
+        socketService.on(SOCKET_EVENT_USER_TYPING, onUserTyping)
         return () => {
             socketService.off(SOCKET_EVENT_ADD_MSG, addMsg)
+            socketService.off(SOCKET_EVENT_USER_TYPING, onUserTyping)
             // botTimeoutRef.current && clearTimeout(botTimeoutRef.current)
         }
     }, [])
@@ -27,6 +33,16 @@ export function ChatRoom({ user, toy }) {
 
     function addMsg(newMsg) {
         setMsgs(prevMsgs => [...prevMsgs, newMsg])
+    }
+
+    function onUserTyping(userName) {
+        // console.log('userName from socket', userName)
+        setTypingUserName(userName)
+
+        if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current)
+        typingTimeoutRef.current = setTimeout(() => {
+            setTypingUserName('')
+        }, 3000)
     }
 
     // function sendBotResponse() {
@@ -46,16 +62,22 @@ export function ChatRoom({ user, toy }) {
         // We add the msg ourself to our own state
         addMsg(newMsg)
         setMsg({ txt: '' })
+        if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current)
+        setTypingUserName('')
     }
 
     function handleFormChange(ev) {
         const { name, value } = ev.target
         setMsg(prevMsg => ({ ...prevMsg, [name]: value }))
+
+        const userName = user?.fullname || 'Guest'
+        socketService.emit(SOCKET_EMIT_USER_TYPING, userName)
     }
 
     return (
-        <section className="chat">
+        <section className="chat-room">
             <h2>Lets Chat about {toy.name}</h2>
+            {typingUserName && <p>{typingUserName} is typing...</p>}
 
             <form onSubmit={sendMsg}>
                 <input
